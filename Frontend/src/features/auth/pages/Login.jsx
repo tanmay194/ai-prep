@@ -1,71 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../auth.form.scss";
-import { Navigate, Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
-import { useEffect } from "react";
-const login = () => {
-  const { user, loading, handleLogin } = useAuth();
-  const navigate = useNavigate();
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
+const Login = () => {
+    const { user, loading, handleLogin } = useAuth();
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    useEffect(() => {
+        if (user) navigate("/");
+    }, [user, navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await handleLogin({ email, password });
-    //navigate("/");
-  };
-  if (loading) {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await handleLogin({ email, password });
+    };
+
+    if (loading) return <main><h1>Loading....</h1></main>;
+
     return (
-      <main>
-        <h1>Loading....</h1>
-      </main>
+        <>
+            <Navbar />
+            <main>
+                <div className="form-container">
+                    <h1>Login</h1>
+                    <form onSubmit={handleSubmit}>
+                        <div className="input-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                onChange={(e) => setEmail(e.target.value)}
+                                type="email" id="email" name="email"
+                                placeholder="Enter your email"
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                onChange={(e) => setPassword(e.target.value)}
+                                type="password" id="password" name="password"
+                                placeholder="Enter your password"
+                            />
+                        </div>
+                        <button className="submit-btn">Login</button>
+                    </form>
+                    <p>Don't have an account? <Link to="/register">Register here</Link></p>
+                </div>
+            </main>
+            <Footer />
+        </>
     );
-  }
-
-  return (
-    <main>
-      <div className="form-container">
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-            />
-          </div>
-          <button className="button primary-button">Login</button>
-        </form>
-        <p>
-          Don't have an account ? <Link to="/register">Register here</Link>{" "}
-        </p>
-      </div>
-    </main>
-  );
 };
 
-export default login;
+export default Login;

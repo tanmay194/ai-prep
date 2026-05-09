@@ -513,3 +513,24 @@ $severity-low: #3fb950;
         }
     }
 }
+
+.interview-nav__home {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0.5rem;
+    color: $text-muted;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover {
+        background: rgba(255,255,255,0.05);
+        color: $text-primary;
+    }
+}

@@ -1,3 +1,7 @@
+$accent: #e91e63;
+$text-primary: whitesmoke;
+$text-muted: whitesmoke;
+
 * {
   margin: 0%;
   padding: 0%;
@@ -8,7 +12,7 @@ html,
 body,
 #root {
   width: 100%;
-  background-color: #333;
+  background-color: #151315;
   color: whitesmoke;
   font-family:
     system-ui,
@@ -26,4 +30,85 @@ body,
 
 .highlight{
     color: #d20d3b;
+}
+
+// ── App Navbar ───────────────────────────────────────────────────────────────
+.app-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+
+    &__logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $accent;
+        text-decoration: none;
+    }
+
+    &__links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+
+        a {
+            color: $text-muted;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+
+            &:hover { color: $text-primary; }
+        }
+    }
+
+    &__cta {
+        padding: 0.45rem 1rem;
+        background: rgba($accent, 0.1);
+        border: 1px solid rgba($accent, 0.3);
+        border-radius: 0.5rem;
+        color: $accent !important;
+        font-weight: 600;
+
+        &:hover {
+            background: rgba($accent, 0.2) !important;
+        }
+    }
+}
+
+// ── App Footer ───────────────────────────────────────────────────────────────
+.app-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: auto;
+
+    &__brand {
+        font-weight: 700;
+        color: $accent;
+        font-size: 1rem;
+    }
+
+    &__copy {
+        font-size: 0.8rem;
+        color: $text-muted;
+    }
+
+    &__links {
+        display: flex;
+        gap: 1.5rem;
+
+        a {
+            font-size: 0.8rem;
+            color: $text-muted;
+            text-decoration: none;
+            &:hover { color: $text-primary; }
+        }
+    }
 }

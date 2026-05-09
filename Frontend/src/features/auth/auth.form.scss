@@ -1,21 +1,17 @@
 // auth.form.scss
 
-// Define the precise colors from the screenshot
 $bg-dark: #161616;
-$text-light: whitesmoke; // Or #f5f5f5
+$text-light: whitesmoke;
 $input-bg: #ffffff;
 $input-text: #1f2937;
-$pink-primary: #e91e63; // A strong, vibrant pink like the button
-$pink-hover: #c2185b; // A darker pink for hover
-$blue-link: #3b82f6; // Blue for the link
+$pink-primary: #e91e63;
+$pink-hover: #c2185b;
 
-// Shared styles for form elements
 %base-rounded {
-  border-radius: 9999px; // Fully pill-shaped like in the image
+  border-radius: 9999px;
 }
 
 main {
-  // Use Flexbox to perfectly center the form on the page
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,20 +23,20 @@ main {
 
   .form-container {
     width: 100%;
-    max-width: 400px; // Sets a maximum width for the form container
+    max-width: 400px;
     padding: 2rem;
 
     h1 {
-      font-size: 2.2rem; // Large, bold title like in image
+      font-size: 2.2rem;
       font-weight: 700;
       margin-bottom: 2rem;
-      text-align: left; // Left-aligned like in image
+      text-align: left;
     }
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem; // Adds space between each input group
+      gap: 1.5rem;
 
       .input-group {
         display: flex;
@@ -50,23 +46,22 @@ main {
         label {
           font-size: 0.95rem;
           font-weight: 500;
-          padding-left: 0.5rem; // Align label with the rounded input
+          padding-left: 0.5rem;
         }
 
         input {
-          @extend %base-rounded; // Apply pill shape
-          padding: 1rem 1.25rem; // Increased padding for thick inputs
-          border: 1px solid transparent; // Hidden border by default
+          @extend %base-rounded;
+          padding: 1rem 1.25rem;
+          border: 1px solid transparent;
           background-color: $input-bg;
           color: $input-text;
           font-size: 1rem;
           width: 100%;
-          transition: border-color 0.2s; // Smooth border transition on focus
+          transition: border-color 0.2s;
 
           &:focus {
-            outline: none; // Remove browser default focus outline
-            border-color: $pink-primary; // Add pink border on focus
-            // Subtle pink glow to match the button color
+            outline: none;
+            border-color: $pink-primary;
             box-shadow: 0 0 0 4px rgba($pink-primary, 0.1);
           }
 
@@ -76,31 +71,28 @@ main {
         }
       }
 
-      .button {
-        @extend %base-rounded; // Apply pill shape
-        padding: 1rem; // Thick button
+      // ← replaces .button.primary-button
+      .submit-btn {
+        @extend %base-rounded;
+        width: 100%;
+        padding: 1rem;
+        background-color: $pink-primary;
+        color: white;
+        border: none;
+        border-bottom: 2px solid darken($pink-primary, 10%);
         font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
-        transition: background-color 0.2s; // Smooth color transition on hover
-        border: none;
-        width: 100%; // Make button take full width
+        margin-top: 0.5rem;
+        transition: background-color 0.2s;
 
-        &.primary-button {
-          background-color: $pink-primary;
-          color: white;
-          // Subtly darkened bottom border for depth like in image
-          border-bottom: 2px solid darken($pink-primary, 10%);
+        &:hover {
+          background-color: $pink-hover;
+        }
 
-          &:hover {
-            background-color: $pink-hover;
-          }
-
-          &:active {
-            // Small subtle animation when clicked
-            transform: translateY(1px);
-            border-bottom: 1px solid darken($pink-hover, 10%);
-          }
+        &:active {
+          transform: translateY(1px);
+          border-bottom: 1px solid darken($pink-hover, 10%);
         }
       }
     }
@@ -113,10 +105,10 @@ main {
 
       a {
         color: #e34177;
-        text-decoration: none; // No underline by default
+        text-decoration: none;
 
         &:hover {
-          text-decoration: underline; // Add underline on hover
+          text-decoration: underline;
         }
       }
     }
