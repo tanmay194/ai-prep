@@ -125,10 +125,19 @@ async function generatePdfFromHtml(htmlContent) {
     if (process.env.VERCEL) {
       // Production Serverless Environment
       const chromium = require("@sparticuz/chromium");
+      
       browser = await puppeteer.launch({
-        args: chromium.args,
+        args: [
+          ...chromium.args,
+          "--hide-scrollbars",
+          "--disable-web-security",
+          "--no-sandbox"
+        ],
         defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath(),
+        // 🔥 Updated the version strings below to exactly match your v149.0.0 installation!
+        executablePath: await chromium.executablePath(
+          `https://github.com/sparticuz/chromium/releases/download/v149.0.0/chromium-v149.0.0-pack.tar`
+        ),
         headless: chromium.headless,
       });
     } else {
