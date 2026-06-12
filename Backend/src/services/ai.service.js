@@ -141,9 +141,7 @@ async function generatePdfFromHtml(htmlContent) {
           "--no-sandbox"
         ],
         defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath(
-          `https://github.com/sparticuz/chromium/releases/download/v149.0.0/chromium-v149.0.0-pack.tar`
-        ),
+        executablePath: await chromium.executablePath(),
         headless: chromium.headless,
       });
     } else {
