@@ -1,10 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-
-// 1. Import and execute the database connection
 const connectToDB = require("./config/database.js"); 
-connectToDB();
 
 const app = express();
 
@@ -16,6 +13,16 @@ app.use(
     credentials: true,
   }),
 );
+
+// 🔥 The Fix: Middleware to ensure DB connection is ready BEFORE running any route logic
+app.use(async (req, res, next) => {
+  try {
+    await connectToDB();
+    next();
+  } catch (err) {
+    res.status(500).json({ error: "Failed to connect to database" });
+  }
+});
 
 const authRouter = require("./routes/auth.routes.js");
 const interviewRouter = require("./routes/interview.routes.js");
