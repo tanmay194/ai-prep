@@ -1,7 +1,8 @@
 const { GoogleGenAI } = require("@google/genai");
 const { z } = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
-const puppeteer = require("puppeteer")
+// const puppeteer = require("puppeteer")
+const puppeteer = require("puppeteer-core");
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GOOGLE_GENAI_API_KEY,
@@ -117,22 +118,48 @@ async function generateInterviewReport({
 }
 
 async function generatePdfFromHtml(htmlContent) {
-    const browser = await puppeteer.launch()
+  let browser;
+
+  try {
+    // 1. Check if running on Vercel environment vs Local machine
+    if (process.env.VERCEL) {
+      // Production Serverless Environment
+      const chromium = require("@sparticuz/chromium");
+      browser = await puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
+      });
+    } else {
+      // Local machine development (points to your local Chrome app)
+      // On Windows it is usually: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+      // On Mac it is usually: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+      browser = await puppeteer.launch({
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        executablePath: process.env.LOCAL_CHROME_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        headless: true,
+      });
+    }
+
     const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" })
-
+    await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+    
+    // Generate the PDF buffer
     const pdfBuffer = await page.pdf({
-        format: "A4", margin: {
-            top: "20mm",
-            bottom: "20mm",
-            left: "15mm",
-            right: "15mm"
-        }
-    })
+      format: "A4",
+      printBackground: true,
+      margin: { top: "20px", right: "20px", bottom: "20px", left: "20px" }
+    });
 
-    await browser.close()
+    await browser.close();
+    return pdfBuffer;
 
-    return pdfBuffer
+  } catch (error) {
+    if (browser) await browser.close();
+    console.error("Puppeteer PDF Error:", error);
+    throw error;
+  }
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {

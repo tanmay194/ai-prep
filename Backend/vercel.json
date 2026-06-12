@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 60,
+      "memory": 1024
+    },
+    "src/app.js": {
+      "maxDuration": 60,
+      "memory": 1024
+    },
+    "src/routes/**/*.js": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  }
+}
