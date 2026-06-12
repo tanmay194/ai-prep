@@ -121,14 +121,17 @@ async function generatePdfFromHtml(htmlContent) {
   let browser;
 
   try {
-    // 🔥 The Fix: Dynamically import the ES Module version of puppeteer-core
+    // 1. Dynamically import the ES Module version of puppeteer-core
     const puppeteerModule = await import("puppeteer-core");
     const puppeteer = puppeteerModule.default || puppeteerModule;
 
-    // 1. Check if running on Vercel environment vs Local machine
+    // 2. Check if running on Vercel environment vs Local machine
     if (process.env.VERCEL) {
       // Production Serverless Environment
-      const chromium = require("@sparticuz/chromium");
+      
+      // 🔥 THE LATEST FIX: Dynamically import @sparticuz/chromium to completely bypass the ERR_REQUIRE_ESM crash
+      const chromiumModule = await import("@sparticuz/chromium");
+      const chromium = chromiumModule.default || chromiumModule;
       
       browser = await puppeteer.launch({
         args: [
