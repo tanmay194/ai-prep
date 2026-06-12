@@ -1,8 +1,10 @@
 const express = require("express");
-
 const cookieParser = require("cookie-parser");
-
 const cors = require("cors");
+
+// 1. Import and execute the database connection
+const connectToDB = require("./config/database.js"); 
+connectToDB();
 
 const app = express();
 
