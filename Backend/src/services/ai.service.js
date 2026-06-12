@@ -121,6 +121,10 @@ async function generatePdfFromHtml(htmlContent) {
   let browser;
 
   try {
+    // 🔥 The Fix: Dynamically import the ES Module version of puppeteer-core
+    const puppeteerModule = await import("puppeteer-core");
+    const puppeteer = puppeteerModule.default || puppeteerModule;
+
     // 1. Check if running on Vercel environment vs Local machine
     if (process.env.VERCEL) {
       // Production Serverless Environment
@@ -134,16 +138,13 @@ async function generatePdfFromHtml(htmlContent) {
           "--no-sandbox"
         ],
         defaultViewport: chromium.defaultViewport,
-        // 🔥 Updated the version strings below to exactly match your v149.0.0 installation!
         executablePath: await chromium.executablePath(
           `https://github.com/sparticuz/chromium/releases/download/v149.0.0/chromium-v149.0.0-pack.tar`
         ),
         headless: chromium.headless,
       });
     } else {
-      // Local machine development (points to your local Chrome app)
-      // On Windows it is usually: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-      // On Mac it is usually: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+      // Local machine development fallback
       browser = await puppeteer.launch({
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
         executablePath: process.env.LOCAL_CHROME_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
